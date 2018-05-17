@@ -26,7 +26,7 @@ You'll need to have `docker` and `curl` to run these benchmarks
    ```
    or run a benchmark on a sample query
    ```bash
-   cat sample.bench.yaml | docker run -i --rm -p 8050:8050 -v $(pwd):/graphql-bench/ws hasura/graphql-bench:032 --query artistByArtistId
+   cat sample.bench.yaml | docker run -i --rm -p 8050:8050 -v $(pwd):/graphql-bench/ws hasura/graphql-bench:v0.3 --query artistByArtistId
    ```
    This opens up a http server at http://127.0.0.1:8050 which displays the results of the benchmark.
 
