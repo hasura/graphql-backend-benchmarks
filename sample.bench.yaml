@@ -1,0 +1,66 @@
+- &default_bench
+  name: tracks_media_some
+  query: tracks_media_some
+  timeout: 1s
+  warmup_duration: 60
+  duration: 100
+  open_connections: 20
+
+  candidates: &candidates
+
+  - &hasura
+    name: hasura
+    url: http://172.17.0.1:7080/v1alpha1/graphql
+    queries_file: hasura/queries.graphql
+
+  - &prisma-mysql
+    name: prisma-mysql
+    url: http://172.17.0.1:4466
+    queries_file: prisma/queries.graphql
+
+  # - &prisma-pg
+  #   name: prisma-pg
+  #   url: http://172.17.0.1:4466
+  #   queries_file: prisma/queries.graphql
+
+  - &postgraphile
+    name: postgraphile
+    url: http://172.17.0.1:5000/graphql
+    queries_file: postgraphile/queries.graphql
+
+  rps: &rps_200_1000
+  - 200
+  - 400
+  - 600
+  - 800
+  - 1000
+
+- <<: *default_bench
+  name: albums_tracks_genre_some
+  query: albums_tracks_genre_some
+
+- <<: *default_bench
+  name: tracks_media_all
+  query: tracks_media_all
+  rps: &rps_50_200
+  - 50
+  - 100
+  - 150
+  - 200
+
+- <<: *default_bench
+  name: albums_tracks_genre_all
+  query: albums_tracks_genre_all
+  rps: *rps_50_200
+
+- <<: *default_bench
+  name: artists_collaboration
+  candidates:
+  - <<: *hasura
+  - <<: *prisma-mysql
+  # - <<: *prisma-pg
+  rps: *rps_200_1000
+
+- <<: *default_bench
+  name: artistByArtistId
+  query: artistByArtistId
